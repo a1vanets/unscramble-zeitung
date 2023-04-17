@@ -2,6 +2,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Unscrambler {
     public static void main(String[] args) {
@@ -27,23 +30,40 @@ public class Unscrambler {
             System.out.println("File not found: " + wordlistGerman);
         }
 
-        System.out.println(stringSet.contains("Aachen"));
+        String result = "";
+
+        for (String s : getAllPermutations("leKnvra")) {
+            if (stringSet.contains(s)) {
+                result += s;
+                break;
+            }
+        }
+
+        System.out.println(result);
 
     }
 
-    // Function to unscramble a German word
-    public static String unscrambleWord(String word) {
-        // Convert the word to a character array for easy manipulation
-        char[] wordChars = word.toCharArray();
+    //
+    public static List<String> getAllPermutations(String s) {
+        List<String> permutations = new ArrayList<>();
+        getAllPermutationsHelper(s, "", permutations);
+        return permutations;
+    }
 
-        // Loop through the character array and swap letters in pairs
-        for (int i = 0; i < wordChars.length - 1; i += 2) {
-            char temp = wordChars[i];
-            wordChars[i] = wordChars[i+1];
-            wordChars[i+1] = temp;
+    private static void getAllPermutationsHelper(String s, String currentPermutation, List<String> permutations) {
+        // Base case: if the current permutation is the same length as the input string, add it to the list of permutations
+        if (currentPermutation.length() == s.length()) {
+            permutations.add(currentPermutation);
+            return;
         }
 
-        // Convert the character array back to a string and return it
-        return new String(wordChars);
+        // Recursive case: for each remaining letter in the input string,
+        // add it to the current permutation and call the helper function again
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (currentPermutation.indexOf(c) == -1) {
+                getAllPermutationsHelper(s, currentPermutation + c, permutations);
+            }
+        }
     }
 }
