@@ -12,7 +12,7 @@ public class Unscrambler {
         String wordlistGerman = "wordlist-german.txt";
 
         // Create a new HashSet to store the Strings
-        HashSet<String> stringSet = new HashSet<>();
+        StringStorage germanList = new StringStorage();
 
         try {
             // Open the file
@@ -21,7 +21,7 @@ public class Unscrambler {
             // Loop through each String in the file and add it to the HashSet
             while (scanner.hasNextLine()) {
                 String string = scanner.nextLine();
-                stringSet.add(string);
+                germanList.addString(string, string);
             }
 
             // Close the file
@@ -30,16 +30,14 @@ public class Unscrambler {
             System.out.println("File not found: " + wordlistGerman);
         }
 
-        String result = "";
-
-        for (String s : getAllPermutations("leKnvra")) {
-            if (stringSet.contains(s)) {
-                result += s;
+        //Not working. Why?
+        for (String s : getAllPermutations("geisvtliie")) {
+            System.out.println(s);
+            if (germanList.getString(s) != null) {
+                System.out.println(s);
                 break;
             }
         }
-
-        System.out.println(result);
 
     }
 
